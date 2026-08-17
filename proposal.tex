@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathptmx} % Times text + math
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{mathtools}
+\setlist[itemize]{topsep=1pt,itemsep=0pt,parsep=0pt,leftmargin=1.2em}
+\setlength{\parskip}{2pt}
+\abovedisplayskip=5pt \belowdisplayskip=5pt \abovedisplayshortskip=3pt \belowdisplayshortskip=3pt
+\setlength{\parindent}{1em}
+\pagestyle{empty}
+
+\begin{document}
+
+\noindent\textbf{Introduction:} From 1900 to 1980, washing machines, refrigerators, and other durables cut weekly housework in America from 58 hours to 18; in ``Engines of Liberation'', Greenwood, Seshadri, and Yorukoglu (2005, GSY) credit technological progress in the household sector with more than half of the rise in female labor-force participation in the same period. Generative AI reached nearly forty percent of working-age adults within two years of ChatGPT's release (Bick, Blandin, and Deming, 2024), and by 2025 roughly 70\% of consumer ChatGPT use was for non-work tasks like planning meals, comparing products, drafting correspondence, and navigating schools, insurers, and public agencies (Chatterji et al., 2025). Economic research on the diffusion of generative AI has concentrated on workers and firms, but its heaviest consumer use is in the household sector — where production is still far from equally shared, with women spending 2.38 hours per day on household activities in 2025 versus 1.58 for men (BLS, 2026) — making it a candidate for the next engine of liberation.
+
+In this project, I ask: What is the household-production potential of generative AI, how much of that potential is realized, and how are the gains distributed across households and household members? Answering these questions requires observing, for each household: the tasks the household performs and their burden; whether AI is used for each task; and what has changed as a result. No source provides these objects jointly, nor can existing data be linked. Browsing-based household exposure scores (Blank, Schubert, and Zhang, 2026), Gemini usage aggregates (Google ATLAS, 2026), and adoption surveys (Bick, Blandin, and Deming, 2024) observe different units — panel households, platform accounts, individual respondents — with no common identifier, and even a perfect merge would still lack baseline times for tasks never brought to AI and task-level outcomes. To that end, I propose a household survey, grounded in a household production model, that collects all three objects. I will then use the responses to construct a novel task-based household exposure measure analogous to existing occupational exposure measures, estimate realized gains on margins with interpretable units, and report how gains are allocated within the household.
+
+
+\smallskip
+\noindent\textbf{Background:} Becker (1965) models households as producers: they choose how to divide their time between market work, home production, and leisure, and combine that time with market goods to produce services for themselves, like a prepared meal or a filed form. Gronau (1977) demonstrates that the decision reponds to market prices and wages because household-produced outputs have market substitutes -- one can cook or get takeout. GSY formalize the entry of technology: output depends on \emph{effective} time. That is, technology makes an hour go farther. I adopt the GSY form, so the output of each task $j \in [J]$ from a roster of household tasks is determined akin to a production function,
+
+\begin{equation}
+H_{ij} = F_j\!\left(A_{ij}T_{ij},\, X_{ij},\, K_{ij}\right),
+\end{equation}
+
+where for household $i$ and task $j$, $T_{ij}$ is time, $X_{ij}$ is purchased goods and services, $K_{ij}$ is household capital, and $A_{ij}\geq 1$ is AI productivity. Consider the example of filing an insurance claim: $T_{ij}$ is hours gathering documents, filling out forms, and following up with the insurer; $X_{ij}$ includes complements to that time (notarization or document-prep fees) and market substitutes for it (a paid claims filing service or adjuster); $K_{ij}$ is the computer; and $H_{ij}$ is the claim resolution. The household chooses time, purchases, and per-task AI adoption, seeking to maximize utility subject to time and money constraints — its hours divide across tasks, AI use, market work, and leisure, and its spending is upper-bounded by earnings from market work and other income:
+
+\begin{equation}
+\max\; u\big(\{H_{ij}\}_j,\, C_i, L_i\big) - \textstyle\sum_j \mu_{ij}T_{ij} \quad \text{s.t.} \quad \textstyle\sum_j T_{ij} + \sum_j U_{ij}\,c_{ij} + N_i + L_i = \bar{T}, \;\; C_i + \sum_j X_{ij} = w_i N_i + y_i.
+\end{equation}
+
+Here, $U_{ij}\in\{0,1\}$ is the task-level adoption decision for household $i$; $\bar{T}$ is total available hours, $C_i$ is consumption, $L_i$ leisure, $N_i$ market work at wage $w_i$, and $y_i$ is other income.
+
+I extend GSY in two ways. First, tasks carry a burden $\mu_{ij}$, which is disutility per hour beyond opportunity cost, and a property of the task that exists with or without AI — in household $i$, an hour on hold with an insurer might be worse than an hour of cooking, even holding output fixed — and in practice, households reach for AI on tasks they dread, not just on those that take the longest. Second, the adoption cost changes units: GSY's durables are bought at a money price, while AI is nearly free in money but costs time — task $j$ takes $c_{ij}$ hours of learning what the tool can do, prompting, and verifying output, realized only if AI is used on task $j$.
+
+\smallskip
+\noindent\textbf{Research Design:} The model reveals the two objects the survey must measure. 
+
+\textit{Adoption}: A household uses AI on a task when the time it would free plus relief from burden exceeds the cost $c_{ij}$. I call the freed time the task's opportunity $O_{ij} \coloneqq B_{ij} \times s_j$, baseline time scaled by the share of the time AI could replace at constant output. This is the household analogue of an occupational exposure measure, weighted by hours rather than task counts.
+
+\textit{Margins}: Conditioned on adoption, higher $A_{ij}$ generates slack, and where it goes depends on how quickly the marginal value of additional output falls. Where output has a fixed target (a form is filed or it is not), the gain returns as time saved ($-\Delta T_{ij}$) or as more output, most sharply at the extensive margin, when the household begins performing a task it had previously not done at all ($H_{ij}$ becomes positive). Because AI raises the productivity of the household's own time, spending on market substitutes may fall $(-\Delta X_{ij})$. Finally, burden itself may fall. 
+
+I will field a survey asking households to report, for each task on a fixed roster: (i) whether and how often the household does it, who does it, and its time in a typical week ($B_{ij}$); (ii) whether generative AI is used, and separately, time spent prompting, checking, and correcting output ($c_j$); (iii) where AI is used: how long the most intance of use took and would have taken without AI; whether the household now does anything it did not do before; whether any paid service was discontinued, and its cost; and what the freed time was used for; (iv) on a subset of tasks, burden, via the question ``\textit{how stressed did you feel while doing this task, from 0 to 6?}'', adapting the American Time Use Survey (ATUS) Well-Being Module wording so responses can be benchmarked against a federal survey.
+
+I will construct the roster from the ATUS activity lexicon's 108 second-tier categories; I will group activities for which AI suitability is uniform and retain individual categories were AI suitability varies. This split yields 20-30 tasks, like ``lawn care", ``financial correspondence'', and ``meal preparation". I will code each task's AI suitability $(s_j)$ following Eloundou et al. (2023), who label tasks categorically by asking an LLM whether AI could halve the time required at constant quality; I apply the same rubric to household tasks but, since LLMs have grown far more capable since 2023, elicit a continuous share (essentially the LLM's confidence). 
+
+With the response data, I will estimate two regressions. Let $O_{ij}$ be opportunity as defined above, $F_{ij}$ an indicator for a task being ordinarily performed by a woman, $\tau_j$ task fixed effects, and $\mathbf{X}_i$ household controls, with standard errors clustered by household:
+\begin{equation}
+U_{ij} = \alpha + \beta_1 O_{ij} + \beta_2 c_{ij} + \boldsymbol{\beta}_3'\mathbf{X}_i + \tau_j + \varepsilon_{ij}, \qquad\quad
+G^{(k)}_{ij} = \gamma + \pi_1 O_{ij} + \pi_2 F_{ij} + \pi_3\, O_{ij}\!\times\! F_{ij} + \boldsymbol{\pi}_4'\mathbf{X}_i + \tau_j + \epsilon_{ij}.
+\end{equation}
+
+The first regression is over all household-task pairs, and the second is among adopters and actually comprises three separate regressions for the three gain margins $G^{(k)}_{ij}$, $k \in \{$time saved, task newly performed, change in burden$\}$. I include wage, employment, and non-labor income as controls: these quantities shape baseline time and hence opportunity, but they also determine substitution between home and market production. Omitting them would bias the opportunity coefficient upward. 
+
+The first regression studies \emph{adoption}, asking whether use concentrates where opportunity is high and whether measured cost $c_{ij}$ explains non-adoption. The second is a \emph{conditional gains} regression, and asks whether opportunity translates into realized gains among users. The interaction term coefficient $\pi_3$ captures who benefits: $\pi_3 > 0$ means gains concentrate on tasks women typically perform, while $\pi_3 \leq 0$ indicates gains spread evenly or a shift in who performs the task. Taken together, the regressions separate an adoption problem, where the constraint is awareness or the cost of starting, from a conditional-effectiveness problem, where the tool is used but delivers little; the first calls for diffusion policy while the second for better tools or adjusted expectations. % need a sentence tying everything up here
+
+% TODO: Intellectual Merit (~0.15pp) and Broader Impacts (~0.2pp) to be added
+
+\smallskip
+\noindent\textbf{References:} Becker. A theory of the allocation of time. \emph{EJ}, 1965. $|$ Bick, Blandin, Deming. The rapid adoption of generative AI. NBER WP, 2024. $|$ Blank, Schubert, Zhang. The household impact of generative AI. WP, 2026. $|$ BLS. ATUS 2025 results. $|$ Chatterji et al. How people use ChatGPT. NBER WP, 2025. $|$ Eloundou et al. GPTs are GPTs. WP, 2023. $|$ Greenwood, Seshadri, Yorukoglu. Engines of liberation. \emph{ReStud}, 2005. $|$ Gronau. Leisure, home production, and work. \emph{JPE}, 1977. $|$ Iscenko, Strand, et al. Google's AI \& Economy ATLAS. Google, 2026.
+
+\end{document}
